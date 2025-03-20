@@ -19,7 +19,7 @@ class SpotifyAPI {
 
         if (!response.ok) {
             if (response.status === 401) {
-                // Token expired
+                // Token renew
                 localStorage.removeItem('spotify_access_token');
                 window.location.reload();
                 throw new Error('Session expired. Please login again.');
@@ -30,22 +30,9 @@ class SpotifyAPI {
         return response.json();
     }
 
-    // User Profile
-    async getCurrentUser() {
-        return this.fetchFromSpotify('/me');
-    }
-
-    // Playlists
-    async getUserPlaylists(limit = 20, offset = 0) {
-        return this.fetchFromSpotify(`/me/playlists?limit=${limit}&offset=${offset}`);
-    }
-
-    async getPlaylist(playlistId) {
-        return this.fetchFromSpotify(`/playlists/${playlistId}`);
-    }
 
     // Search
-    async search(query, types = ['track', 'artist', 'album']) {
+    async searchSpotify(query, types = ['track']) {
         const params = new URLSearchParams({
             q: query,
             type: types.join(','),
@@ -54,16 +41,75 @@ class SpotifyAPI {
         return this.fetchFromSpotify(`/search?${params}`);
     }
 
-    // Tracks
+    //  Recommendations
+    //
+    //  --[[ DEPRECATED  ]]--
+    //  Only included for memories
+    //  and proof I made it
+    //
+    /*async getRecommendations(seedGenres, seedTracks) {
+        try {    
+            const totalSeeds = seedTracks.length + seedGenres.length;
+            if (totalSeeds === 0) {
+                throw new Error('At least one seed is required');
+            }
+            if (totalSeeds > 5) {
+                throw new Error('Maximum of 5 total seeds allowed');
+            }
+    
+            const params = new URLSearchParams();
+    
+            if (seedTracks.length > 0) {
+                params.append('seed_tracks', seedTracks.join(','));
+            }
+            if (seedGenres.length > 0) {
+                params.append('seed_genres', seedGenres.join(','));
+            }
+    
+            params.append('limit', 40);
+
+            return this.fetchFromSpotify('/recommendations?${params}');
+        
+
+        } catch (error) {
+            console.error('Error getting recommendations:', error);
+            throw error;
+        }
+    }*/
+
+    // Recommend songs for selected track
+    async handleTrackSelect(id) {
+        this.getTrack(id).then(track => {
+            const songName = track.name;
+            const tasteApi = new TasteDive();
+            console.log(songName);
+            const recs = tasteApi.fetchFromTasteDive(songName);
+            console.log(recs);
+        });
+        
+    }
+
+    // Get from Spotify
+    async getCurrentUser() {
+        return this.fetchFromSpotify('/me');
+    }
+
+    async getUserPlaylists(limit = 20, offset = 0) {
+        return this.fetchFromSpotify(`/me/playlists?limit=${limit}&offset=${offset}`);
+    }
+
+    async getPlaylist(playlistId) {
+        return this.fetchFromSpotify(`/playlists/${playlistId}`);
+    }
+
     async getTrack(trackId) {
         return this.fetchFromSpotify(`/tracks/${trackId}`);
     }
 
-    async getAudioFeatures(trackId) {
-        return this.fetchFromSpotify(`/audio-features/${trackId}`);
+    async getFollowing() {
+        return this.fetchFromSpotify(`/me/following/?type=artist`);
     }
 
-    // Albums
     async getAlbum(albumId) {
         return this.fetchFromSpotify(`/albums/${albumId}`);
     }
@@ -72,7 +118,6 @@ class SpotifyAPI {
         return this.fetchFromSpotify(`/albums/${albumId}/tracks`);
     }
 
-    // Artists
     async getArtist(artistId) {
         return this.fetchFromSpotify(`/artists/${artistId}`);
     }
@@ -81,7 +126,6 @@ class SpotifyAPI {
         return this.fetchFromSpotify(`/artists/${artistId}/top-tracks?market=${market}`);
     }
 
-    // User Library
     async getSavedTracks(limit = 20, offset = 0) {
         return this.fetchFromSpotify(`/me/tracks?limit=${limit}&offset=${offset}`);
     }
@@ -91,22 +135,11 @@ class SpotifyAPI {
         return this.fetchFromSpotify(`/me/tracks/contains?ids=${ids}`);
     }
 
-    // Player
     async getCurrentPlayback() {
         return this.fetchFromSpotify('/me/player');
     }
 
     async getRecentlyPlayed() {
         return this.fetchFromSpotify('/me/player/recently-played');
-    }
-
-    // Recommendations
-    async getRecommendations({seed_artists = [], seed_tracks = [], seed_genres = []}) {
-        const params = new URLSearchParams({
-            seed_artists: seed_artists.join(','),
-            seed_tracks: seed_tracks.join(','),
-            seed_genres: seed_genres.join(',')
-        });
-        return this.fetchFromSpotify(`/recommendations?${params}`);
     }
 }

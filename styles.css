@@ -1,46 +1,71 @@
-.banner {
-    background-color: darkgreen;
-    padding-bottom: 30px;
-}
-
 body {
     text-align: center;
     background-image: linear-gradient(black, black, black, gray);
-    color: white;
+    color: #f8f8f8;
     background-attachment: fixed;
 }
 
-#pfp {
-    height: 40px;
-    width: 40px;
+
+/* Header Bar Styles */
+  .headerBar {
+    display:  block;
+    align-items: center;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: relative;
+  }
+  
+  /* Search Bar Styling */
+  .search-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    margin: 0 20px;
+    background-color: #F8F8F8;
+  }
+  
+  #search-bar {
+    width: 80%;
+    max-width: 500px;
+    padding: 10px 15px;
     border-radius: 20px;
-    margin-bottom: 40px;
-    position: absolute;
-    top: 2%;
-    left: 2%;
-}
+    border: 1px solid #ddd;
+    font-size: 16px;
+  }
 
-#profile-name {
-    position: absolute;
-    left: 2%;
-    margin-top: 30px;
-}
+  
+  /* Profile Picture Styling */
+  #profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    object-fit: contain;
+  }
+  
+  #profile-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
-.search {
+ 
 
-    color: whitesmoke;
-}
+  .account {
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+  }
 
-label.search {
-
-    font-size: 24px;
-}
-
-#search {
-    margin-top: 10px;
-    width: 35%;
-    color: black;
-}
+  #logout-button {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 10px;
+    margin-left: 20px;
+    background-color: #888;
+    border-radius: 15%;
+    border: #000000;
+  }
 
 .modal {
     display: none;
@@ -73,57 +98,92 @@ label.search {
     cursor: pointer;
   }
 
-  /* Header Bar Styles */
-  .header {
+
+  /* Row Styling */
+   .row {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    background-color: #f8f9fa;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    position: relative;
-    height: 60px;
-  }
-  
-  /* Search Bar Styling */
-  .search-container {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    margin: 0 20px;
-  }
-  
-  .search-bar {
-    width: 80%;
-    max-width: 500px;
-    padding: 10px 15px;
-    border-radius: 20px;
-    border: 1px solid #ddd;
-    font-size: 16px;
-  }
-  
-  .search-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-left: -40px;
-  }
-  
-  /* Profile Picture Styling */
-  #profile-pic {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-    object-fit: contain;
-  }
-  
-  #profile-pic img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    justify-content: flex-start;
+    align-content: center;
+    padding-left: 30px;
+    padding-top: 10px;
+    background-color: rgba(169, 169, 169, 0.048);
+    
   }
 
-  #logoutButton {
-    margin: 40px;
+  .itemCover {
+    width: 10%;
+    display: block;
+    align-content: center;
+    margin-right: 50px;
+  }
+
+  .coverImage {
+    width: 100%;
+    align-items: center;
+  }
+
+  .coverImage img {
+    height: 100%;
+    width: 100%;
+  }
+
+  .title {
+    color: forestgreen;
+  }
+
+  .heading {
+    margin-top: 50px;
+    color: #F8F8F8;
+    justify-self:flex-start;
+    margin-left: 30px;
+  }
+
+
+  #search-display {
+    display: none;
+    flex-direction: column;
+    padding-left: 30px;
+    padding-top: 10px;
+    background-color: rgba(169, 169, 169, 0.062);
+  }
+
+  .searchTracks {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 30px;
+  }
+
+  .trackCard {
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    width: 60%;
+    height: fit-content;
+    margin-top: 10px;
+    padding: 5px;
+    background-color: rgba(169, 169, 169, 0.199);
+  }
+
+  .trackImage {
+    margin: 5px;
+    margin-right: 15px;
+    height: 75px;
+    width: 75px;
+  }
+
+  .songDesc {
+    display: block;
+    justify-content: left;
+  }
+
+  .button {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 10px;
+    margin-left: 20px;
+    background-color: #888;
+    border-radius: 15%;
+    border: #000000;
   }

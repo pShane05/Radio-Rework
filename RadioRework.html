@@ -5,24 +5,91 @@
 </head>
 <body>
     <div class="headerBar">
-        <div id="profile-pic">
-          <img src=""/>
+
+        <div class="account">
+            <div id="profile-pic">
+              <img src=""/>
+            </div>
+            <button class="button" id="logout-button">Logout</button>
         </div>
-        
+
+        <h1 class="title"> Radio Rework [logo]</h1>
+
         <div class="searchbar">
-          <input type="text" class="search-bar" placeholder="Search...">
+          <input type="text" id="search-bar" placeholder="Search..." data-search>
         </div>
-        
+    </div>
+
+    <div id="main-display">
+
+        <div class="recents">
+            <h2 class="heading">Recent Listening</h2>
+
+            <div class="row">
+                <div class="itemCover">
+                    <div class="coverImage">
+                        <img src="coverImageTemplate.jpg"/>
+                    </div>
+                    <h4>Item name</h2>
+                </div>
+                
+            </div>
+
+        </div>
+
+        <div class="Artists">
+            <h2 class="heading">Artists</h2>
+
+            <div class="row">
+                <div class="itemCover">
+                    <div class="coverImage">
+                        <img src="artistImageTemplate.png"/>
+                    </div>
+                    <h4>Artist name</h2>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="search-display">
+        <h2>Search Results</h2>
+        <div class="searchTracks" data-track-container></div>
+
+    </div>
+
+    <div id="radio-display">
         
     </div>
 
-    
-    <button id="logoutButton">Logout</button>
+    <!-- Templates -->
+    <template data-track-card-template>
+        <div class="trackCard">
+            <img class="trackImage" data-cover/>
+            <div class="songDesc">
+                <h4 class="title" data-title></h4>
+                <p class="artist" data-artist></p>
+            </div>
+            <p class="trackObject" style="display: none" data-track-id></p>
+        </div>
+    </template>
 
-    
+    <template data-cover-image-card>
+        <div class="">
+            <div class="coverImageContainer">
+                <img class="coverImage"src=""/>
+            </div>
+            <h4 class=""title></h2>
+        </div>
+    </template>
+
+    <script src="https://js-cdn.music.apple.com/musickit/v3/musickit.js" data-web-components async></script>
     <script src="spotify-auth.js"></script>
     <script src="spotify-api.js"></script>
+    <script src="spotify-search.js"></script>
     <script src="app.js"></script>
+    <script src="tastedive-api.js"></script>
     <link rel="stylesheet" href=styles.css>
 </body>
 </html>
