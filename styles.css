@@ -1,189 +1,189 @@
 body {
-    text-align: center;
-    background-image: linear-gradient(black, black, black, gray);
-    color: #f8f8f8;
-    background-attachment: fixed;
+  text-align: center;
+  background-image: linear-gradient(black, black, black, gray);
+  color: #f8f8f8;
+  background-attachment: fixed;
 }
 
 
 /* Header Bar Styles */
-  .headerBar {
-    display:  block;
-    align-items: center;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    position: relative;
-  }
-  
-  /* Search Bar Styling */
-  .search-container {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    margin: 0 20px;
-    background-color: #F8F8F8;
-  }
-  
-  #search-bar {
-    width: 80%;
-    max-width: 500px;
-    padding: 10px 15px;
-    border-radius: 20px;
-    border: 1px solid #ddd;
-    font-size: 16px;
-  }
+.headerBar {
+  display:  block;
+  align-items: center;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: relative;
+}
 
-  
-  /* Profile Picture Styling */
-  #profile-pic {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-    object-fit: contain;
-  }
-  
-  #profile-pic img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+/* Search Bar Styling */
+.search-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  margin: 0 20px;
+  background-color: #F8F8F8;
+}
 
- 
+#search-bar {
+  width: 80%;
+  max-width: 500px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
 
-  .account {
-    display: flex;
-    justify-content: flex-start;
-    align-content: center;
-  }
 
-  #logout-button {
-    padding-left: 10px;
-    padding-right: 10px;
-    margin: 10px;
-    margin-left: 20px;
-    background-color: #888;
-    border-radius: 15%;
-    border: #000000;
-  }
+/* Profile Picture Styling */
+#profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  object-fit: contain;
+}
+
+#profile-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+.account {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+}
+
+#logout-button {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 10px;
+  margin-left: 20px;
+  background-color: #888;
+  border-radius: 15%;
+  border: #000000;
+}
 
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(20, 20, 20, 0.5);
-  }
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(20, 20, 20, 0.5);
+}
+
+.modal-content {
+  background-color: gray;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 5% auto;
+  padding: 10px;
+  border: 1px solid #888;
+  width: 10%;
+  height: 20%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+/* Row Styling */
+ .row {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  padding-left: 30px;
+  padding-top: 10px;
+  background-color: rgba(169, 169, 169, 0.048);
   
-  .modal-content {
-    background-color: gray;
-    position: absolute;
-    left: 0;
-    top: 0;
-    margin: 5% auto;
-    padding: 10px;
-    border: 1px solid #888;
-    width: 10%;
-    height: 20%;
-  }
-  
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-  }
+}
+
+.itemCover {
+  width: 10%;
+  display: block;
+  align-content: center;
+  margin-right: 50px;
+}
+
+.coverImage {
+  width: 100%;
+  align-items: center;
+}
+
+.coverImage img {
+  height: 100%;
+  width: 100%;
+}
+
+.title {
+  color: forestgreen;
+}
+
+.heading {
+  margin-top: 50px;
+  color: #F8F8F8;
+  justify-self:flex-start;
+  margin-left: 30px;
+}
 
 
-  /* Row Styling */
-   .row {
-    display: flex;
-    justify-content: flex-start;
-    align-content: center;
-    padding-left: 30px;
-    padding-top: 10px;
-    background-color: rgba(169, 169, 169, 0.048);
-    
-  }
+#search-display {
+  display: none;
+  flex-direction: column;
+  padding-left: 30px;
+  padding-top: 10px;
+  background-color: rgba(169, 169, 169, 0.062);
+}
 
-  .itemCover {
-    width: 10%;
-    display: block;
-    align-content: center;
-    margin-right: 50px;
-  }
+.searchTracks {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 30px;
+}
 
-  .coverImage {
-    width: 100%;
-    align-items: center;
-  }
+.trackCard {
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  width: 60%;
+  height: fit-content;
+  margin-top: 10px;
+  padding: 5px;
+  background-color: rgba(169, 169, 169, 0.199);
+}
 
-  .coverImage img {
-    height: 100%;
-    width: 100%;
-  }
+.trackImage {
+  margin: 5px;
+  margin-right: 15px;
+  height: 75px;
+  width: 75px;
+}
 
-  .title {
-    color: forestgreen;
-  }
+.songDesc {
+  display: block;
+  justify-content: left;
+}
 
-  .heading {
-    margin-top: 50px;
-    color: #F8F8F8;
-    justify-self:flex-start;
-    margin-left: 30px;
-  }
-
-
-  #search-display {
-    display: none;
-    flex-direction: column;
-    padding-left: 30px;
-    padding-top: 10px;
-    background-color: rgba(169, 169, 169, 0.062);
-  }
-
-  .searchTracks {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin-top: 30px;
-  }
-
-  .trackCard {
-    cursor: pointer;
-    display: flex;
-    justify-content: flex-start;
-    width: 60%;
-    height: fit-content;
-    margin-top: 10px;
-    padding: 5px;
-    background-color: rgba(169, 169, 169, 0.199);
-  }
-
-  .trackImage {
-    margin: 5px;
-    margin-right: 15px;
-    height: 75px;
-    width: 75px;
-  }
-
-  .songDesc {
-    display: block;
-    justify-content: left;
-  }
-
-  .button {
-    padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin: 10px;
-    margin-left: 20px;
-    background-color: #888;
-    border-radius: 15%;
-    border: #000000;
-  }
+.button {
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 10px;
+  margin-left: 20px;
+  background-color: #888;
+  border-radius: 15%;
+  border: #000000;
+}
