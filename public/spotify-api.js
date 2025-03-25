@@ -32,13 +32,47 @@ class SpotifyAPI {
 
 
     // Search
-    async searchSpotify(query, types = ['track']) {
+    async searchSpotify(query, lim) {
         const params = new URLSearchParams({
             q: query,
-            type: types.join(','),
-            limit: 20
+            type: ['track'],
+            limit: lim
         });
         return this.fetchFromSpotify(`/search?${params}`);
+    }
+
+
+    // Create Playlist
+    async createPlaylist(user, name, description) {
+        const options = {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${this.accessToken}`,
+                'Content-Type': 'application/json'
+              },
+            body: {
+                "name": `${name}`,
+                "description": `${description}`,
+                "public": true
+            }
+        }
+        return this.fetchFromSpotify(`/users/${user}/playlists`, options);
+    }
+
+    // Add to Playlist
+    async addTrackToPlaylist(playlistId, uris) {
+        const options = {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+              },
+            body: {
+                "uris": `${uris}`,
+                "position": 0
+            }
+        }
+        return this.fetchFromSpotify(`/playlists/${playlistId}/tracks`, options);
     }
 
     //  Recommendations
@@ -77,21 +111,14 @@ class SpotifyAPI {
         }
     }*/
 
-    // Recommend songs for selected track
-    async handleTrackSelect(id) {
-        this.getTrack(id).then(track => {
-            const songName = track.name;
-            const tasteApi = new TasteDive();
-            console.log(songName);
-            const recs = tasteApi.fetchFromTasteDive(songName);
-            console.log(recs);
-        });
-        
-    }
 
     // Get from Spotify
     async getCurrentUser() {
         return this.fetchFromSpotify('/me');
+    }
+
+    async getUser(userId) {
+        return this.fetchFromSpotify(`/users/${userId}`);
     }
 
     async getUserPlaylists(limit = 20, offset = 0) {
