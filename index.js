@@ -7,26 +7,25 @@ const PORT = process.env.PORT || 5500
 
 const app = express()
 
-// Rate limiting
+// Rate Limiting 
 const limiter = rateLimit({
-    windowMs: 10 * 60 * 1000,
+    windowMs: 10 * 60 * 100,
     max: 100
 })
 app.use(limiter)
 app.set('trust proxy', 1)
 
-// set static folder
-app.use(express.static('public'))
-
-//routes
-app.get('/api', (req, res) => {
-    res.json({ success: true });
-})
-
 // enable cors
 app.use(cors())
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+// Set static folders
+app.use(express.static('public'))
+
+//routes
+app.use('/api', require('./routes'))
+
+
+app.listen(PORT, '127.0.0.1', () => console.log(`Server running on port ${PORT}`))
 .on('error', (err) => {
     console.error('Server error:', err)
 })

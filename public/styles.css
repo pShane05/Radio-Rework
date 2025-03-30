@@ -155,8 +155,12 @@ body {
   width: 75px;
 }
 
-.songDesc {
+.songDesc{
   display: block;
+  justify-content: left;
+}
+
+.songDesc .artist {
   justify-content: left;
 }
 
@@ -225,7 +229,7 @@ body {
 .radioTrack {
   display: flex;
   justify-content: flex-start;
-  width: 80%;
+  width: 100%;
   height: fit-content;
   margin-top: 10px;
   padding: 5px;
@@ -266,4 +270,8 @@ body {
   height: 25px;
   background-color: gray;
   border-radius: 20%;
+}
+
+.playlistTracks {
+  justify-content: center;
 }

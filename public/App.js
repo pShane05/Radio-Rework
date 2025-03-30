@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const profilePic = document.getElementById('profile-pic');
     const searchInput = document.querySelector("[data-search]");
     const api = new SpotifyAPI(auth.getAccessToken());
+    const lastRecs = new LastfmAPIRecs();
     const trackCardTemplate = document.querySelector("[data-track-card-template]");
     const radioTrackCardTemplate = document.querySelector("[data-radio-track-template]");
     const recentTrackTemplate = document.querySelector("[data-recent-card]");
@@ -170,6 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         playlistTitle.innerHTML = `${radioName}`;
 
+        console.log(track);
+
 
         const saveButton = document.getElementById('save-button');
         const checkCard = document.getElementById('check-card');
@@ -180,24 +183,30 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("ran onClick")
         });
 
-        api.searchSpotify(`${track.name}`, 40).then(response => {
-            response.tracks.items.forEach(recTrack => {
-                if(recTrack.name != track.name) {
-                    const card = radioTrackCardTemplate.content.cloneNode(true).children[0];
-                    const cover = card.querySelector("[data-cover]");
-                    const title = card.querySelector("[data-title]");
-                    const artist = card.querySelector("[data-artist]");
-                    const removeBtn = card.querySelector("[data-remove-button");
+        lastRecs.fetchRecsLastFM(`${track.artists[0].name}`, `${track.name}`).then(response => {
+            response.children[0].children.forEach(recTrack => {
+                console.log(recTrack);
+                var spotTrack;
+                const card = radioTrackCardTemplate.content.cloneNode(true).children[0];
+                const cover = card.querySelector("[data-cover]");
+                const title = card.querySelector("[data-title]");
+                const artist = card.querySelector("[data-artist]");
+
+                api.searchSpotify(recTrack.children[0].value, 1).then(response => {
+                    spotTrack = response.tracks.items[0];
+                    console.log(spotTrack);
                     
-                    cover.src = recTrack.album.images[0].url;
-                    title.textContent = recTrack.name;
-                    artist.textContent = recTrack.artists[0].name;
-                    removeBtn.addEventListener('click', async () => {
-                        radioTrackCardContainer.removeChild(card);
-                    })
+                    cover.src = spotTrack.album.images[0].url;
+                    title.textContent = spotTrack.name;
+                    artist.textContent = spotTrack.artists[0].name;
+                })
+
+                const removeBtn = card.querySelector("[data-remove-button");
+                removeBtn.addEventListener('click', async () => {
+                    radioTrackCardContainer.removeChild(card);
+                })
                     
-                    radioTrackCardContainer.append(card);
-                }
+                radioTrackCardContainer.append(card);
             });
         })
     }
