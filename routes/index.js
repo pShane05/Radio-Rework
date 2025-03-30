@@ -11,13 +11,13 @@ const API_KEY_VALUE = process.env.API_KEY_VALUE
 
 let cache = apicache.middleware
 
-router.get('/', cache('2 minutes'), async (req, res) => {
+router.get('/', cache('2 seconds'), async (req, res) => {
     try {
 
         const params = new URLSearchParams({
             [API_KEY_NAME]: API_KEY_VALUE,
             method: 'track.getsimilar',
-            limit: 50,
+            limit: 30,
             ...url.parse(req.url, true).query
         })
 

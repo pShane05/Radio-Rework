@@ -2,7 +2,7 @@ class SpotifyAuth {
     constructor() {
         this.clientId = '6e3e7b1272f74f18b75612995627d9cd';
         this.redirectUri = 'http://127.0.0.1:5500';
-        this.scope = 'user-read-private user-read-email playlist-read-private user-follow-read user-read-recently-played';
+        this.scope = 'user-read-private user-read-email playlist-read-private user-follow-read user-read-recently-played playlist-modify-public playlist-modify-private';
         
         const params = new URLSearchParams(window.location.hash.substring(1));
         this.accessToken = params.get('access_token');

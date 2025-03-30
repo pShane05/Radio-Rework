@@ -43,34 +43,47 @@ class SpotifyAPI {
 
 
     // Create Playlist
-    async createPlaylist(user, name, description) {
+    async createPlaylist(name) {
+        const currUser = await this.getCurrentUser();
         const options = {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${this.accessToken}`,
                 'Content-Type': 'application/json'
               },
-            body: {
+            body: JSON.stringify({
                 "name": `${name}`,
-                "description": `${description}`,
+                "description": "A playlist based on your fine taste in songs",
                 "public": true
-            }
+            })
         }
-        return this.fetchFromSpotify(`/users/${user}/playlists`, options);
+        const response = await fetch(`${this.baseUrl}/users/${currUser.id}/playlists`, options);
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                // Token renew
+                localStorage.removeItem('spotify_access_token');
+                window.location.reload();
+                throw new Error('Session expired. Please login again.');
+            }
+            throw new Error(`Spotify API Error: ${response.statusText}`);
+        }
+
+        return response.json();
     }
 
     // Add to Playlist
-    async addTrackToPlaylist(playlistId, uris) {
+    async addTracksToPlaylist(playlistId, uris) {
         const options = {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${accessToken}`,
+                'Authorization': `Bearer ${this.accessToken}`,
                 'Content-Type': 'application/json'
               },
-            body: {
-                "uris": `${uris}`,
+            body: JSON.stringify({
+                "uris": uris,
                 "position": 0
-            }
+            })
         }
         return this.fetchFromSpotify(`/playlists/${playlistId}/tracks`, options);
     }

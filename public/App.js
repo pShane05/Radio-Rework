@@ -1,19 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
     const auth = new SpotifyAuth();
-    const logoutButton = document.getElementById('logout-button');
-    const profilePic = document.getElementById('profile-pic');
-    const searchInput = document.querySelector("[data-search]");
     const api = new SpotifyAPI(auth.getAccessToken());
     const lastRecs = new LastfmAPIRecs();
+
+    const logoutButton = document.getElementById('logout-button');
+    const backButton = document.getElementById('back-button');
+    const profilePic = document.getElementById('profile-pic');
+    const searchInput = document.querySelector("[data-search]");
+    const scrollRows = document.querySelectorAll('.row');
+    
+
+    // templates
     const trackCardTemplate = document.querySelector("[data-track-card-template]");
     const radioTrackCardTemplate = document.querySelector("[data-radio-track-template]");
+    const artistCoverTemplate = document.querySelector("[data-artist-cover-template");
     const recentTrackTemplate = document.querySelector("[data-recent-card]");
     const trackCardContainer = document.querySelector("[data-track-container]");
     const radioTrackCardContainer = document.querySelector("[data-radio-track-container");
+
+    // containers
     const recentsContainer = document.getElementById('recents');
-    const backButton = document.getElementById('back-button');
-    var following;
-    var recents;
+    const followingContainer = document.getElementById('following');
+
+    
     var clickTrackId = null;
 
 
@@ -136,9 +145,22 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         })
 
+        // display followed artists
         api.getFollowing().then(response => {
             response.artists.items.forEach(artist => {
+                const artistCover = artistCoverTemplate.content.cloneNode(true).children[0];
+                const artistPic = artistCover.querySelector("[data-artist-image]");
+                const artistName = artistCover.querySelector("[data-artist-name]");
 
+                artistPic.src = artist.images[0].url;
+                artistName.innerHTML = artist.name;
+
+                // handle click
+                artistCover.addEventListener('click', async () => {
+
+                })
+
+                followingContainer.append(artistCover);
             })
         })
 
@@ -150,10 +172,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
+    // Handles clicking of a searched track
     async function handleTrackSelect(id) {
         api.getTrack(id).then(track => {
             switchDisplay('radio');
-            console.log(track);
             populateRadioPlaylist(track);
         });
         
@@ -164,43 +186,64 @@ document.addEventListener('DOMContentLoaded', () => {
         const coverImg = document.getElementById('playlist-cover-container');
         const playlistTitle = document.getElementById('playlist-title');
         const coverSrc = `${track.album.images[0]?.url}`;
-        const radioName = `Playlist based on ${track.name}`;
-        const user = api.getCurrentUser();
+        const radioName = `Playlist based on "${track.name}"`;
+        var playlistTracks = [];
         coverImg.innerHTML = `
             <img src="${coverSrc}"style="width: 100%">
         `;
         playlistTitle.innerHTML = `${radioName}`;
 
-        console.log(track);
-
 
         const saveButton = document.getElementById('save-button');
         const checkCard = document.getElementById('check-card');
         saveButton.addEventListener('click', async () => {
-            //api.createPlaylist(user, radioName);
+            // Return if no songs to add
+            if (radioTrackCardContainer.childElementCount < 1) {
+                console.log('No Songs To Add');
+                return;
+            }
+
+            // loop each track for URI
+            document.querySelectorAll('.radioTrack').forEach(trackCard => {
+                playlistTracks.push(trackCard.lastChild.previousSibling.textContent);
+            })
+
+            // create playlist with all songs
+            api.createPlaylist(radioName).then(response => {
+                api.addTracksToPlaylist(response.id, playlistTracks);
+            })
             saveButton.style = `display: none`;
             checkCard.style = `display: flex`;
-            console.log("ran onClick")
         });
 
-        lastRecs.fetchRecsLastFM(`${track.artists[0].name}`, `${track.name}`).then(response => {
+        // encode lastfm params
+        const encodedName = encodeURI(`${track.name}`);
+        const encodedArtist = encodeURI(`${track.artists[0].name}`);
+
+        // get recommendations from lastfm
+        lastRecs.fetchRecsLastFM(encodedArtist, encodedName).then(response => {
+            if(response.children[0].children.length < 1) {
+                console.log('nah');
+            }
             response.children[0].children.forEach(recTrack => {
-                console.log(recTrack);
                 var spotTrack;
                 const card = radioTrackCardTemplate.content.cloneNode(true).children[0];
                 const cover = card.querySelector("[data-cover]");
                 const title = card.querySelector("[data-title]");
                 const artist = card.querySelector("[data-artist]");
+                const trackUri = card.querySelector("[data-track-uri]");
 
+                // search Spotify API for each song recommended
                 api.searchSpotify(recTrack.children[0].value, 1).then(response => {
                     spotTrack = response.tracks.items[0];
-                    console.log(spotTrack);
-                    
+
                     cover.src = spotTrack.album.images[0].url;
                     title.textContent = spotTrack.name;
                     artist.textContent = spotTrack.artists[0].name;
+                    trackUri.textContent = spotTrack.uri;
                 })
 
+                // Button handler for removing unwanted songs
                 const removeBtn = card.querySelector("[data-remove-button");
                 removeBtn.addEventListener('click', async () => {
                     radioTrackCardContainer.removeChild(card);
@@ -209,11 +252,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 radioTrackCardContainer.append(card);
             });
         })
+
+        console.log(playlistTracks);
     }
 
     backButton.addEventListener('click', async () => {
         switchDisplay('main');
-        //searchInput.value = '';
         window.location.reload();
     })
+
+
+    // allow scrolling for rows
+    scrollRows.forEach(function(row) {
+        row.addEventListener('wheel', function(e) {
+          if (e.deltaY !== 0) {
+            e.preventDefault();
+            this.scrollLeft += e.deltaY;
+          }
+        }, { passive: false });
+      });
 });
