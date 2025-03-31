@@ -2,6 +2,11 @@
 <html>
 <head>
     <title>Spotify API Client</title>
+    <script src="spotify-auth.js"></script>
+    <script src="spotify-api.js"></script>
+    <script src="lastfm_api.js"></script>
+    <script src="app.js"></script>
+    <link rel="stylesheet" href=styles.css>
 </head>
 <body>
     <div class="headerBar">
@@ -13,7 +18,10 @@
             <button class="button" id="logout-button">Logout</button>
         </div>
 
-        <h1 class="title"> Radio Rework [logo]</h1>
+        <div class="titlePair">
+            <h1 class="title">Radio Rework </h1>
+            <img src="logo.png" alt="" style="width: 5%;">
+        </div><h1 class="title">
 
         <div id="search-container">
           <input type="text" id="search-bar" placeholder="Search..." data-search>
@@ -42,24 +50,6 @@
 
     </div>
 
-    <div id="radio-display">
-        <button class="back-button" id="back-button"><</button>
-        <div class="playlistBanner">
-            <div id="playlist-cover-container">
-                <img src=""/>
-            </div>
-            <div class="playlistInfo">
-                <h2 id="playlist-title">Playlist title</h2>
-                <button class="button" id="save-button">+</button>
-                <div id="check-card">
-                    <h4>Added to library!</h4>
-                </div>
-            </div>
-        </div>
-            
-        <div class="playlistTracks" data-radio-track-container></div>
-    </div>
-
     <!-- Templates -->
 
     <template data-artist-cover-template>
@@ -82,18 +72,6 @@
         </div>
     </template>
 
-    <template data-radio-track-template>
-        <div class="radioTrack">
-            <img class="trackImage" data-cover/>
-            <div class="songDesc">
-                <h4 class="title" data-title></h4>
-                <p class="artist" data-artist></p>
-            </div>
-            <button class="removeButton" data-remove-button>X</button>
-            <p class="trackURI" style="display: none" data-track-uri> song uri </p>
-        </div>
-    </template>
-
     <template data-recent-card>
         <div class="recent">
             <div class="coverImageContainerRecent">
@@ -103,11 +81,5 @@
         </div>
     </template>
 
-    <!-- Scripts -->
-    <script src="spotify-auth.js"></script>
-    <script src="spotify-api.js"></script>
-    <script src="lastfm_api.js"></script>
-    <script src="app.js"></script>
-    <link rel="stylesheet" href=styles.css>
 </body>
 </html>

@@ -92,28 +92,15 @@ document.addEventListener('DOMContentLoaded', () => {
     async function switchDisplay(display) {
         const main = document.getElementById('main-display');
         const search = document.getElementById('search-display');
-        const radio = document.getElementById('radio-display');
-        const searchbar = document.getElementById('search-container');
         if(display === 'search') {
             main.style = "display: none";
             search.style = "display: flex";
-            radio.style = "display: none";
-            searchbar.style = "display: block";
 
         } else if (display === 'main') {
             main.style = "display: block";
             search.style = "display: none";
-            radio.style = "display: none";
-            searchbar.style = "display: block";
-            
-        } else if (display === 'radio') {
-            main.style = "display: none";
-            search.style = "display: none";
-            radio.style = "display: flex";
-            searchbar.style = "display: none";
-
         } else {
-            console.log("Wrong display argument dummy");
+            console.log("Wrong display argument");
             return;
         }
     }
@@ -174,9 +161,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handles clicking of a searched track
     async function handleTrackSelect(id) {
+        const param = new URLSearchParams ({
+            track: id
+        })
+        window.location.href = `./playlist.html?${param}`
         api.getTrack(id).then(track => {
-            switchDisplay('radio');
-            populateRadioPlaylist(track);
+            //switchDisplay('radio');
+            //populateRadioPlaylist(track);
+            
         });
         
     }
@@ -222,8 +214,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // get recommendations from lastfm
         lastRecs.fetchRecsLastFM(encodedArtist, encodedName).then(response => {
+            // Error handling for empty recs
             if(response.children[0].children.length < 1) {
                 console.log('nah');
+                
             }
             response.children[0].children.forEach(recTrack => {
                 var spotTrack;
@@ -255,11 +249,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log(playlistTracks);
     }
-
-    backButton.addEventListener('click', async () => {
-        switchDisplay('main');
-        window.location.reload();
-    })
 
 
     // allow scrolling for rows
